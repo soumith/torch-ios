@@ -4,11 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "lua.h"
-#import "TH/TH.h"
-#import "luaT.h"
-#import "lualib.h"
-#import "lauxlib.h"
+#import <Torch/Torch.h>
 
 int luaopen_libtorch(lua_State *L);
 int luaopen_libnn(lua_State *L);
@@ -20,7 +16,8 @@ int luaopen_libimage(lua_State *L);
     lua_State *L;
 }
 
-- (void)require:(NSString *)file;
+- (void)doFileInBundle:(NSString *)file;
+- (void)doFileAtPath:(NSString *)path;
 - (void)initialize;
 
 @end
