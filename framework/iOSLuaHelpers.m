@@ -13,6 +13,21 @@ int lua_path_ios(lua_State* L, NSString* path)
     lua_getfield(L,-1,"path");
     NSString *current_path = [NSString stringWithUTF8String:lua_tostring(L,-1)];
     current_path = [NSString stringWithFormat:@"%@;%@/?.lua",current_path,path];
+    NSLog(@"%@",current_path);
+    lua_pop(L,1);
+    lua_pushstring(L, [current_path UTF8String]);
+    lua_setfield(L,-2,"path");
+    lua_pop(L,1);
+    return 0;
+}
+
+int lua_path_ios2(lua_State* L, NSString* path)
+{
+    lua_getglobal(L,"package");
+    lua_getfield(L,-1,"path");
+    NSString *current_path = [NSString stringWithUTF8String:lua_tostring(L,-1)];
+    current_path = [NSString stringWithFormat:@"%@;%@/?/init.lua",current_path,path];
+    NSLog(@"%@",current_path);
     lua_pop(L,1);
     lua_pushstring(L, [current_path UTF8String]);
     lua_setfield(L,-2,"path");

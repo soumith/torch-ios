@@ -49,40 +49,41 @@
 
 - (NSString *)getLuaPath
 {
-    NSURL *lpath = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"lua"];
+    NSURL *lpath = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"torchdata"];
     return [lpath path];
 }
 
 - (void)initialize
 {
     // initialize Lua stack
-    lua_executable_dir([[self getLuaPath] UTF8String]);
+    lua_executable_dir("./");
     L = lua_open();
     luaL_openlibs(L);
     
     // load Torch
     luaopen_libtorch(L);
-    [self requireLib:@"torch" inState:L];
+//    [self requireLib:@"torch" inState:L];
 
     // load dok
-    [self requireLib:@"dok" inState:L];
+//    [self requireLib:@"dok" inState:L];
     
     // load nn
     luaopen_libnn(L);
-    [self requireLib:@"nn" inState:L];
+//    [self requireLib:@"nn" inState:L];
 
     // load nnx
     luaopen_libnnx(L);
-    [self requireLib:@"nnx" inState:L];
+//    [self requireLib:@"nnx" inState:L];
 
     // load image
     luaopen_libimage(L);
-    [self requireLib:@"image" inState:L];
+//    [self requireLib:@"image" inState:L];
 
     // run user code
-    [self doFileInBundle:@"main"];
-    lua_getfield(L, LUA_GLOBALSINDEX, "initialize");
-    lua_call(L, 0, 0);
+    lua_path_ios2(L, [[self getLuaPath] stringByAppendingPathComponent:@"lua"]);
+    [self doFileAtPath:[[self getLuaPath] stringByAppendingPathComponent:@"main.lua"]];
+//    lua_getfield(L, LUA_GLOBALSINDEX, "initialize");
+//    lua_call(L, 0, 0);
     
     // done
     return;

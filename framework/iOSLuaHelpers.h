@@ -9,6 +9,7 @@
 #import "Torch.h"
 
 extern int lua_path_ios(lua_State* L, NSString* path);
+extern int lua_path_ios2(lua_State* L, NSString* path);
 
 @interface iOSLuaHelpers : NSObject
 
